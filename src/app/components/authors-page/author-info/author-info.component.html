@@ -1,0 +1,41 @@
+<div class="page-title">
+
+    <h4>
+        <a href="/authors">Authors</a>
+        <i class="material-icons">keyboard_arrow_right</i>
+        {{ author.name + " " + author.surname}}
+    </h4>
+    <p>
+        <b>Name:</b> {{author.name}}<br>
+        <b>Surname:</b> {{author.surname}}<br>
+        <b>Birth Date:</b> {{author.birthDate}}<br>
+        <b>Country:</b> {{author.country}}
+    </p>
+
+    <span *ngIf="isAdmin">
+        <a class="btn btn-small blue" [routerLink]="['/authors/edit/' + author.id]">
+            <i class="material-icons">edit</i>
+        </a>
+    </span>
+
+</div>
+
+<hr>
+
+<h5>
+    Books
+</h5>
+
+<div class="collection">
+    <p *ngIf="!hasBooks" class="collection-item">
+        at the moment there are no books by author {{author.name + " " + author.surname}}
+    </p>
+    <a *ngFor="let book of authorBooks.books" [routerLink]="['/books/info/' + book.id]" class="collection-item">
+        {{book.name}}
+    </a>
+</div>
+
+<app-loader *ngIf="loading"></app-loader>
+
+<app-paginator *ngIf="hasBooks" [currentPage]="currentPage" [totalPages]="totalPages"
+    (pageChange)="onPageChange($event)"></app-paginator>

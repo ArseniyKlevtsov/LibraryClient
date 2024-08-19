@@ -4,6 +4,8 @@ import { RegisterPageComponent } from './components/register-page/register-page.
 import { LoginPageComponent } from './components/login-page/login-page.component';
 
 import { AuthorsPageComponent } from './components/authors-page/authors-page.component';
+import { AuthorInfoComponent } from './components/authors-page/author-info/author-info.component';
+import { AuthorFormComponent } from './components/authors-page/author-form/author-form.component';
 
 import { BooksPageComponent } from './components/books-page/books-page.component';
 
@@ -35,7 +37,10 @@ export const routes: Routes = [
       { path: '', redirectTo: '/books', pathMatch: "full" },
 
       { path: 'authors', component: AuthorsPageComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
-      
+      { path: 'authors/info/:id', component: AuthorInfoComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
+      { path: 'authors/add', component: AuthorFormComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
+      { path: 'authors/edit/:id', component: AuthorFormComponent, canActivate: [adminGuard], canActivateChild: [adminGuard] },
+
       { path: 'books', component: BooksPageComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
       
       { path: 'genres', component: GenresPageComponent, canActivate: [authGuard], canActivateChild: [authGuard] },

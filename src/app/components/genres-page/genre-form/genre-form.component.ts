@@ -26,14 +26,17 @@ export class GenreFormComponent implements OnInit {
   genreLoaded = false;
 
   form: FormGroup;
+
   constructor(
     private genreService: GenreService,
     private materialService: MaterialService,
     private router: Router,
-    private route: ActivatedRoute,) {
+    private route: ActivatedRoute) {
+
     this.form = new FormGroup({
       name: new FormControl(null, Validators.required)
     })
+
   }
 
 
@@ -72,8 +75,6 @@ export class GenreFormComponent implements OnInit {
   deleteGenre() {
     const decision = window.confirm('Delete this genre?')
     if (decision) {
-      console.log(decision)
-      console.log(this.genre.id)
       this.genreService.deleteById(this.genre.id).subscribe({
         next: data => {
           MaterialService.toast("The record has been deleted");
@@ -83,8 +84,6 @@ export class GenreFormComponent implements OnInit {
           MaterialService.toast("An error occurred when requesting the server");
         }
       });
-
-
     }
   }
 

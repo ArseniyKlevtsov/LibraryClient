@@ -1,90 +1,67 @@
-<form 
-  [formGroup]="form"
-  (ngSubmit)="onSubmit()"
-  class="auth-block"
-  novalidate
->
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-block" novalidate>
   <div class="card">
     <div class="card-content">
-      
+
       <h5 class="card-title">Sign Up</h5>
 
-      <label for="userName">UserName:</label>
       <div class="input-field">
-        <input 
-          formControlName="userName"
-          id="userName" 
-          [ngClass]="{'is-invalid': form.get('userName').invalid && form.get('userName').touched}"
-        >
-      </div>
-
-      <div *ngIf="form.get('userName').invalid && form.get('userName').touched">
-        <div class="red-text text-darken-2" *ngIf="form.get('userName').errors['required']">
-          Username is required.
+        <i class="material-icons prefix">account_circle</i>
+        <input formControlName="userName" id="userName" type="text"
+          [ngClass]="{'is-invalid': form.get('userName').invalid && form.get('userName').touched}">
+        <label for="userName">UserName:</label>
+        <div *ngIf="form.get('userName').invalid && form.get('userName').touched">
+          <div class="red-text text-darken-2" *ngIf="form.get('userName').errors['required']">
+            Username is required.
+          </div>
         </div>
       </div>
 
-      <label for="password">Password:</label>
       <div class="input-field">
-        <input 
-          formControlName="password"
-          id="password" 
-          [ngClass]="{'is-invalid': form.get('password').invalid && form.get('password').touched}"
-          >
-      </div>
-
-      <div *ngIf="form.get('password').invalid && form.get('password').touched">
-        <div class="red-text text-darken-2" *ngIf="form.get('password').errors['required']">
-          Password is required.
-        </div>
-        <div class="red-text text-darken-2" *ngIf="form.get('password').errors['minlength']">
-          Password must be at least {{form.get('password').errors['minlength']['requiredLength']}} characters long.
+        <i class="material-icons prefix">vpn_key</i>
+        <input formControlName="password" id="password" type="password"
+          [ngClass]="{'is-invalid': form.get('password').invalid && form.get('password').touched}">
+        <label for="password">Password:</label>
+        <div *ngIf="form.get('password').invalid && form.get('password').touched">
+          <div class="red-text text-darken-2" *ngIf="form.get('password').errors['required']">
+            Password is required.
+          </div>
+          <div class="red-text text-darken-2" *ngIf="form.get('password').errors['minlength']">
+            Password must be at least {{form.get('password').errors['minlength']['requiredLength']}} characters long.
+          </div>
         </div>
       </div>
 
-      <label for="email">Email:</label>
       <div class="input-field">
-        <input 
-          formControlName="email"
-          id="email" 
-          type="email" 
-          [ngClass]="{'is-invalid': form.get('email').invalid && form.get('email').touched}"
-          >
-      </div>
-
-      <div *ngIf="form.get('email').invalid && form.get('email').touched">
-        <div class="red-text text-darken-2" *ngIf="form.get('email').errors['required']">
-          Email is required.
-        </div>
-        <div class="red-text text-darken-2" *ngIf="form.get('email').errors['email']">
-          Email must be in correct format
+        <i class="material-icons prefix">email</i>
+        <input formControlName="email" id="email" type="email"
+          [ngClass]="{'is-invalid': form.get('email').invalid && form.get('email').touched}">
+        <label for="email">Email:</label>
+        <div *ngIf="form.get('email').invalid && form.get('email').touched">
+          <div class="red-text text-darken-2" *ngIf="form.get('email').errors['required']">
+            Email is required.
+          </div>
+          <div class="red-text text-darken-2" *ngIf="form.get('email').errors['email']">
+            Email must be in correct format
+          </div>
         </div>
       </div>
 
-      <label for="phoneNumber">Phone Number:</label>
       <div class="input-field">
-        <input 
-          formControlName="phoneNumber"
-          id="phoneNumber" 
-          type="tel" 
-          [ngClass]="{'is-invalid': form.get('phoneNumber').invalid && form.get('phoneNumber').touched}"
-          >
-      </div>
-
-      <div *ngIf="form.get('phoneNumber').invalid && form.get('phoneNumber').touched">
-        <div class="red-text text-darken-2" *ngIf="form.get('phoneNumber').errors['required']">
-          PhoneNumber is required.
+        <i class="material-icons prefix">phone</i>
+        <input formControlName="phoneNumber" id="phoneNumber" type="tel"
+          [ngClass]="{'is-invalid': form.get('phoneNumber').invalid && form.get('phoneNumber').touched}">
+        <label for="phoneNumber">Phone Number:</label>
+        <div *ngIf="form.get('phoneNumber').invalid && form.get('phoneNumber').touched">
+          <div class="red-text text-darken-2" *ngIf="form.get('phoneNumber').errors['required']">
+            PhoneNumber is required.
+          </div>
         </div>
       </div>
 
-  </div>
+    </div>
 
     <div class="card-action">
-      <button 
-        type="submit"
-        class="btn waves-effect waves-light"
-        [disabled]="form.invalid || form.disabled"
-      >
+      <button type="submit" class="btn waves-effect waves-light" [disabled]="form.invalid || form.disabled">
         Sign Up
       </button>
     </div>

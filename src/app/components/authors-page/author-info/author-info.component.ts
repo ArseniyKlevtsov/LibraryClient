@@ -1,29 +1,33 @@
-import { BookService } from './../../../shared/services/book.service';
-import { AuthService } from './../../../shared/services/auth.service';
-import { Component, OnInit, Input } from '@angular/core';
-import { GenreResponseDto } from '../../../shared/interfaces/genre/responses/genre-response-dto.interface';
-import { GenreService } from '../../../shared/services/genre.service';
-import { ActivatedRoute, Params, RouterLink } from '@angular/router';
-import { BooksResponseDto } from '../../../shared/interfaces/book/responses/books-response-dto.interface';
 import { NgFor, NgIf } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import { PaginatorComponent } from '../../../shared/components/paginator/paginator.component';
-import { GetAllBooksRequestDto } from '../../../shared/interfaces/book/requests/get-all-books-request-dto.interface';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
+import { AuthorService } from '../../../shared/services/author.service';
+import { AuthService } from '../../../shared/services/auth.service';
+import { BookService } from '../../../shared/services/book.service';
+import { AuthorResponseDto } from '../../../shared/interfaces/author/responses/author-response-dto.interface';
+import { BooksResponseDto } from '../../../shared/interfaces/book/responses/books-response-dto.interface';
+import { GetAllBooksRequestDto } from '../../../shared/interfaces/book/requests/get-all-books-request-dto.interface';
 
 @Component({
-  selector: 'app-genre-info',
+  selector: 'app-author-info',
   standalone: true,
   imports: [NgIf, NgFor, RouterLink, PaginatorComponent, LoaderComponent],
-  templateUrl: './genre-info.component.html',
-  styleUrl: './genre-info.component.css'
+  templateUrl: './author-info.component.html',
+  styleUrl: './author-info.component.css'
 })
-export class GenreInfoComponent implements OnInit {
-  genre: GenreResponseDto = {
+export class AuthorInfoComponent implements OnInit {
+
+  author: AuthorResponseDto = {
     id: "",
     name: "",
+    surname: "",
+    birthDate: new Date(),
+    country: "",
     bookIds: []
   }
-  genreBooks: BooksResponseDto = {
+  authorBooks: BooksResponseDto = {
     totalCount: 0,
     totalPages: 0,
     books: []
@@ -31,7 +35,7 @@ export class GenreInfoComponent implements OnInit {
 
   isAdmin: boolean = false;
   loading = false;
-  genreLoaded = false;
+  authorLoaded = false;
   hasBooks = false;
 
   currentPage: number = 0;
@@ -39,15 +43,15 @@ export class GenreInfoComponent implements OnInit {
   totalPages: number = 1;
 
   constructor(
-    private genreService: GenreService,
+    private authorService: AuthorService,
     private route: ActivatedRoute,
     private authService: AuthService,
     private bookService: BookService) {
   }
 
   ngOnInit() {
-    this.loadGenre();
-    if(this.genreLoaded) {
+    this.loadAuthor();
+    if (this.authorLoaded) {
       this.loadPage(this.currentPage, this.pageSize);
     }
     this.isAdmin = this.authService.isAdmin();
@@ -57,20 +61,20 @@ export class GenreInfoComponent implements OnInit {
     this.currentPage = page;
     this.loadPage(page, this.pageSize);
   }
-  
-  loadGenre() {
+
+  loadAuthor() {
     this.route.params.subscribe((params: Params) => {
       const id = params['id'];
-      this.genreService.getById(id).subscribe(genre => {
-        this.genre = genre;
-        this.genreLoaded = true;
+      this.authorService.getById(id).subscribe(author => {
+        this.author = author;
+        this.authorLoaded = true;
       });
     });
   }
 
   loadPage(currentPage: number, pageSize: number) {
     this.loading = true
-    this.genreBooks = {
+    this.authorBooks = {
       books: [],
       totalCount: 0,
       totalPages: 0
@@ -79,13 +83,14 @@ export class GenreInfoComponent implements OnInit {
     let getAllBooksRequestDto: GetAllBooksRequestDto = {
       page: currentPage,
       pageSize: pageSize,
-      genreId: this.genre.id
-    }
+      authorId: this.author.id
+    };
+
     this.bookService.getAll(getAllBooksRequestDto).subscribe(genreBooks => {
       this.loading = false;
-      this.genreBooks = genreBooks;
+      this.authorBooks = genreBooks;
       this.totalPages = this.totalPages;
       this.hasBooks = genreBooks.books.length > 0
-    })
+    });
   }
 }

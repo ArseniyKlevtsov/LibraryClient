@@ -16,4 +16,9 @@ export class MaterialService {
   static updateTextFields() {
     M.updateTextFields()
   }
+
+  static initDatePicker(options?: any) {
+    var elems = document.querySelectorAll('.datepicker');
+    M.Datepicker.init(elems, options);
+  }
 }

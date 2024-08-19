@@ -2,7 +2,7 @@ export interface AuthorResponseDto {
     id?: string;
     name?: string;
     surname?: string;
-    birthDate: Date;
+    birthDate?: Date;
     country?: string;
     bookIds?: string[];
   }
