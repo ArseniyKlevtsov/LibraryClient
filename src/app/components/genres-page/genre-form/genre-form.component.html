@@ -1,0 +1,43 @@
+<div class="page-title">
+
+	<h4>
+		<a href="/genres">Genres</a>
+		<i class="material-icons">keyboard_arrow_right</i>
+		{{ isNew ? 'Create' : 'Edit'}}
+	</h4>
+
+	<div class="row">
+		<form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+			<div class="input-field">
+				<input id="name" type="text" formControlName="name"
+					[ngClass]="{'invalid': form.get('name').invalid && form.get('name').touched} ">
+				<label for="name">Name</label>
+			</div>
+
+			<div *ngIf="form.get('name').invalid && form.get('name').touched">
+				<div class="red-text text-darken-2" *ngIf="form.get('name').errors['required']">
+					Name is required.
+				</div>
+			</div>
+
+			<p></p>
+
+			<span>
+				<button class="btn btn-small blue" type="submit" [disabled]="form.invalid || form.disabled">
+					<i class="material-icons">save</i>
+				</button>
+				<span *ngIf="!isNew">
+					|
+					<button class="btn btn-small red" (click)="deleteGenre()" type="button">
+						<i class="material-icons">delete</i>
+					</button>
+				</span>
+			</span>
+
+		</form>
+	</div>
+
+
+
+</div>

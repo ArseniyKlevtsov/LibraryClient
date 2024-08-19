@@ -1,0 +1,26 @@
+.auth-block {
+    width: 400px; 
+    height: 300px;
+    margin-top: 200px; 
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff; 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px; 
+}
+
+.card-title {
+    text-align: center;
+}
+
+.card-title button {
+    margin: 0 auto;
+}
+
+.card-footer {
+    text-align: center;
+}
+
+.card-footer button {
+    margin: 0 auto;
+}

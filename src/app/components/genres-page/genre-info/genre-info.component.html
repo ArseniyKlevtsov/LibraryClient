@@ -1,0 +1,29 @@
+<div class="page-title">
+
+    <h4>
+        <a href="/genres">Genres</a>
+        <i class="material-icons">keyboard_arrow_right</i>
+        {{genre.name}}
+    </h4>
+
+    <span *ngIf="isAdmin">
+        <a class="btn btn-small blue" [routerLink]="['/genres/edit/' + genre.id]">
+            <i class="material-icons">edit</i>
+        </a>
+        |
+        <button class="btn btn-small red" (click)="deleteGenre()">
+            <i class="material-icons">delete</i>
+        </button>
+    </span>
+
+</div>
+
+<div class="collection">
+    <a *ngFor="let book of genreBooks.books" [routerLink]="['/books/info/' + book.id]" class="collection-item">
+        {{book.name}}
+    </a>
+</div>
+<app-loader *ngIf="loading"></app-loader>
+<p *ngIf="!hasBooks"> at the moment there are no books by genre {{genre.name}}</p>
+<app-paginator *ngIf="hasBooks" [currentPage]="currentPage" [totalPages]="totalPages"
+  (pageChange)="onPageChange($event)"></app-paginator>

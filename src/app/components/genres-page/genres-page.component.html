@@ -1,0 +1,21 @@
+<div class="page-title">
+  <h4>Genres</h4>
+  <button class="waves-effect waves-light btn grey darken-1" [routerLink]="['/genres/add']" *ngIf="isAdmin">
+    Add genre</button>
+</div>
+
+<div class="row" *ngIf="!loading">
+  <div class="col s12">
+    <div class="collection">
+      <a *ngFor="let genre of genres.genres" [routerLink]="['/genres/info/' + genre.id]"
+        routerLinkActive="router-link-active" class="collection-item">
+        {{genre.name}}
+      </a>
+
+    </div>
+  </div>
+</div>
+<app-loader *ngIf="loading"></app-loader>
+
+<app-paginator [currentPage]="currentPage" [totalPages]="totalPages"
+  (pageChange)="onPageChange($event)"></app-paginator>
