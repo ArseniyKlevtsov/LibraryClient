@@ -1,0 +1,12 @@
+<div class="input-field">
+    <input type="file" class="dn" (change)="onFileUpload($event)" #imageRef>
+    <button (click)="triggerClick()" [disabled]="form.disabled" type="button"
+      class="waves-effect waves-light btn orange lighten-2 mb2">
+      <i class="material-icons left">backup</i>
+      Select image
+    </button>
+    <div class="imageBox orange lighten-3" *ngIf="imagePreview">
+      <h6>Selected Image:</h6>
+      <img class="responsive-img h200 materialboxed" [src]="imagePreview">
+    </div>
+  </div>

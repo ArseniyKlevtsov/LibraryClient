@@ -8,6 +8,8 @@ import { AuthorInfoComponent } from './components/authors-page/author-info/autho
 import { AuthorFormComponent } from './components/authors-page/author-form/author-form.component';
 
 import { BooksPageComponent } from './components/books-page/books-page.component';
+import { BookInfoComponent } from './components/books-page/book-info/book-info.component';
+import { BookFormComponent } from './components/books-page/book-form/book-form.component';
 
 import { GenresPageComponent } from './components/genres-page/genres-page.component';
 import { GenreInfoComponent } from './components/genres-page/genre-info/genre-info.component';
@@ -42,7 +44,12 @@ export const routes: Routes = [
       { path: 'authors/edit/:id', component: AuthorFormComponent, canActivate: [adminGuard], canActivateChild: [adminGuard] },
 
       { path: 'books', component: BooksPageComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
-      
+      { path: 'books/info/:id', component: BookInfoComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
+      { path: 'books/add', component: BookFormComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
+      { path: 'books/edit/:id', component: BookFormComponent, canActivate: [adminGuard], canActivateChild: [adminGuard] },
+      { path: 'books/editImage/:id', component: BookFormComponent, canActivate: [adminGuard], canActivateChild: [adminGuard] },
+      { path: 'books/editInventory/:id', component: BookFormComponent, canActivate: [adminGuard], canActivateChild: [adminGuard] },
+
       { path: 'genres', component: GenresPageComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
       { path: 'genres/info/:id', component: GenreInfoComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
       { path: 'genres/add', component: GenreFormComponent, canActivate: [authGuard], canActivateChild: [authGuard] },

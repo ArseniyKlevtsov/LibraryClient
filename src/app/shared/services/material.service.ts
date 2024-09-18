@@ -21,4 +21,13 @@ export class MaterialService {
     var elems = document.querySelectorAll('.datepicker');
     M.Datepicker.init(elems, options);
   }
+
+  static initMaterialBoxed(options?: any) {
+    var elems = document.querySelectorAll('.materialboxed');
+    M.Materialbox.init(elems, options);
+  }
+  static initFormSelect(options?: any) {
+    var elems = document.querySelectorAll('select');
+    M.FormSelect.init(elems, options);
+  }
 }

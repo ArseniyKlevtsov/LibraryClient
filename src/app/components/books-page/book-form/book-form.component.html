@@ -1,0 +1,116 @@
+<div class="page-title">
+  <h4>
+    <a href="/books">Books</a>
+    <i class="material-icons">keyboard_arrow_right</i>
+    {{ isNew ? 'Create' : 'Edit'}}
+  </h4>
+</div>
+
+<div class="row">
+
+  <form class="col s6" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+
+    <div class="input-field">
+
+      <input id="isbn" type="text" formControlName="isbn"
+        [ngClass]="{'invalid': form.get('isbn').invalid && form.get('isbn').touched} ">
+
+      <label for="isbn">isbn</label>
+
+      <div *ngIf="form.get('isbn').invalid && form.get('isbn').touched">
+        <div class="red-text text-darken-2" *ngIf="form.get('isbn').errors['required']">
+          Name is required.
+        </div>
+        <div class="red-text text-darken-2" *ngIf="form.get('isbn').errors['pattern']">
+          <ul class="collection with-header">
+            <li class="collection-header">
+              <h4>Valid isbn patterns</h4>
+            </li>
+            <li class="collection-item">ISBN-13: 978-0-596-52068-7</li>
+            <li class="collection-item">ISBN 978-0-596-52068-7</li>
+            <li class="collection-item">ISBN-10 0-596-52068-9</li>
+            <li class="collection-item">978 0 596 52068 7</li>
+            <li class="collection-item">9780596520687</li>
+            <li class="collection-item">0-596-52068-9</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="input-field">
+
+      <input id="name" type="text" formControlName="name" maxlength="100"
+        [ngClass]="{'invalid': form.get('name').invalid && form.get('name').touched} ">
+
+      <label for="name">Name</label>
+
+      <div *ngIf="form.get('name').invalid && form.get('name').touched">
+        <div class="red-text text-darken-2" *ngIf="form.get('name').errors['required']">
+          Name is required.
+        </div>
+        <div class="red-text text-darken-2" *ngIf="form.get('name').errors['maxlength']">
+          max length 100
+        </div>
+      </div>
+
+    </div>
+
+    <div class="input-field">
+
+      <textarea id="textarea" class="materialize-textarea" formControlName="description" maxlength="1000"
+        [ngClass]="{'invalid': form.get('description').invalid && form.get('description').touched} "></textarea>
+
+      <label for="textarea">Description</label>
+
+      <div *ngIf="form.get('description').invalid && form.get('description').touched">
+        <div class="red-text text-darken-2" *ngIf="form.get('description').errors['required']">
+          Name is required.
+        </div>
+        <div class="red-text text-darken-2" *ngIf="form.get('description').errors['maxlength']">
+          max length 1000
+        </div>
+      </div>
+    </div>
+
+    <div class="input-field">
+      <select  formControlName="authorId">
+        <option value="" disabled>Choose your option</option>
+        <option [value]="author.id" *ngFor="let author of authors">
+          {{author.name + " " + author.surname}}
+        </option>
+      </select>
+      <label>Select Author</label>
+    </div>
+
+    <div class="input-field">
+      <select multiple formControlName="genreIds">
+        <option value="" disabled>Choose your option</option>
+        <option [value]="genre.id" *ngFor="let genre of genres">
+          {{genre.name}}
+        </option>
+
+      </select>
+      <label>Select genres</label>
+    </div>
+
+    <p></p>
+
+    <span>
+      <button class="btn btn-small blue" (click)="refresh()" type="button">
+        <i class="material-icons">refresh</i>
+      </button>
+      <button class="btn btn-small blue" type="submit" [disabled]="form.invalid || form.disabled">
+        <i class="material-icons">save</i>
+      </button>
+      <span *ngIf="!isNew">
+        |
+        <button class="btn btn-small red" (click)="deleteBook()" type="button">
+          <i class="material-icons">delete</i>
+        </button>
+      </span>
+    </span>
+
+  </form>
+</div>

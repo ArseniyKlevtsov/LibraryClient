@@ -29,7 +29,6 @@ export class GenreFormComponent implements OnInit {
 
   constructor(
     private genreService: GenreService,
-    private materialService: MaterialService,
     private router: Router,
     private route: ActivatedRoute) {
 

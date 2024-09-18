@@ -1,99 +1,98 @@
 <div class="page-title">
 
-	<h4>
-		<a href="/authors">Authors</a>
-		<i class="material-icons">keyboard_arrow_right</i>
-		{{ isNew ? 'Create' : 'Edit'}}
-	</h4>
+  <h4>
+    <a href="/authors">Authors</a>
+    <i class="material-icons">keyboard_arrow_right</i>
+    {{ isNew ? 'Create' : 'Edit'}}
+  </h4>
+</div>
 
-	<div class="row">
-		<form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="row">
+  <form class="col s12 l6" [formGroup]="form" (ngSubmit)="onSubmit()">
 
-			<div class="input-field">
-				
-				<input id="name" type="text" formControlName="name"
-					[ngClass]="{'invalid': form.get('name').invalid && form.get('name').touched} ">
-				
-					<label for="name">Name</label>
-				
-				<div *ngIf="form.get('name').invalid && form.get('name').touched">
-					<div class="red-text text-darken-2" *ngIf="form.get('name').errors['required']">
-						Name is required.
-					</div>
-					<div class="red-text text-darken-2" *ngIf="form.get('name').errors['maxlength']">
-						max length 20
-					</div>
-				</div>
+    <div class="input-field">
 
-			</div>
+      <input id="name" type="text" formControlName="name"
+        [ngClass]="{'invalid': form.get('name').invalid && form.get('name').touched} ">
 
-			<div class="input-field">
-				
-				<input id="surname" type="text" formControlName="surname" 
-					[ngClass]="{'invalid': form.get('surname').invalid && form.get('surname').touched} ">
-				
-					<label for="surname">Surname</label>
-				
-				<div *ngIf="form.get('surname').invalid && form.get('surname').touched">
-					<div class="red-text text-darken-2" *ngIf="form.get('surname').errors['required']">
-						Name is required.
-					</div>
-					<div class="red-text text-darken-2" *ngIf="form.get('surname').errors['maxlength']">
-						max length 20
-					</div>
+      <label for="name">Name</label>
 
-				</div>
+      <div *ngIf="form.get('name').invalid && form.get('name').touched">
+        <div class="red-text text-darken-2" *ngIf="form.get('name').errors['required']">
+          Name is required.
+        </div>
+        <div class="red-text text-darken-2" *ngIf="form.get('name').errors['maxlength']">
+          max length 20
+        </div>
+      </div>
 
-			</div>
+    </div>
 
-			<div class="input-field">
-				<label for="birthDate">Birth Date</label>
-				<input placeholder="1925-05-25" id="birthDate" type="text" formControlName="birthDate" 
-					[ngClass]="{'invalid': form.get('birthDate').invalid && form.get('birthDate').touched} ">
-				
-				
-				<div *ngIf="form.get('birthDate').invalid && form.get('birthDate').touched">
-					<div class="red-text text-darken-2" *ngIf="form.get('birthDate').errors['required']">
-						Birth Date is required.
-					</div>
-					<div class="red-text text-darken-2" *ngIf="form.get('birthDate').errors['pattern']">
-						invalid format (correct sample: 1925-05-25)
-					</div>
-				</div>
+    <div class="input-field">
 
-			</div>
+      <input id="surname" type="text" formControlName="surname"
+        [ngClass]="{'invalid': form.get('surname').invalid && form.get('surname').touched} ">
 
-			<div class="input-field">
-				
-				<input id="country" type="text" formControlName="country"
-					[ngClass]="{'invalid': form.get('country').invalid && form.get('country').touched} ">
-				
-					<label for="country">Country</label>
-				
-				<div *ngIf="form.get('country').invalid && form.get('country').touched">
-					<div class="red-text text-darken-2" *ngIf="form.get('country').errors['required']">
-						Name is required.
-					</div>
+      <label for="surname">Surname</label>
 
-				</div>
+      <div *ngIf="form.get('surname').invalid && form.get('surname').touched">
+        <div class="red-text text-darken-2" *ngIf="form.get('surname').errors['required']">
+          Name is required.
+        </div>
+        <div class="red-text text-darken-2" *ngIf="form.get('surname').errors['maxlength']">
+          max length 20
+        </div>
 
-			</div>
+      </div>
 
-			<p></p>
+    </div>
 
-			<span>
-				<button class="btn btn-small blue" type="submit" [disabled]="form.invalid || form.disabled">
-					<i class="material-icons">save</i>
-				</button>
-				<span *ngIf="!isNew">
-					|
-					<button class="btn btn-small red" (click)="deleteAuthor()" type="button">
-						<i class="material-icons">delete</i>
-					</button>
-				</span>
-			</span>
+    <div class="input-field">
+      <label for="birthDate">Birth Date</label>
+      <input placeholder="1925-05-25" id="birthDate" type="text" formControlName="birthDate"
+        [ngClass]="{'invalid': form.get('birthDate').invalid && form.get('birthDate').touched} ">
 
-		</form>
-	</div>
 
+      <div *ngIf="form.get('birthDate').invalid && form.get('birthDate').touched">
+        <div class="red-text text-darken-2" *ngIf="form.get('birthDate').errors['required']">
+          Birth Date is required.
+        </div>
+        <div class="red-text text-darken-2" *ngIf="form.get('birthDate').errors['pattern']">
+          invalid format (correct sample: 1925-05-25)
+        </div>
+      </div>
+
+    </div>
+
+    <div class="input-field">
+
+      <input id="country" type="text" formControlName="country"
+        [ngClass]="{'invalid': form.get('country').invalid && form.get('country').touched} ">
+
+      <label for="country">Country</label>
+
+      <div *ngIf="form.get('country').invalid && form.get('country').touched">
+        <div class="red-text text-darken-2" *ngIf="form.get('country').errors['required']">
+          Name is required.
+        </div>
+
+      </div>
+
+    </div>
+
+    <p></p>
+
+    <span>
+      <button class="btn btn-small blue" type="submit" [disabled]="form.invalid || form.disabled">
+        <i class="material-icons">save</i>
+      </button>
+      <span *ngIf="!isNew">
+        |
+        <button class="btn btn-small red" (click)="deleteAuthor()" type="button">
+          <i class="material-icons">delete</i>
+        </button>
+      </span>
+    </span>
+
+  </form>
 </div>
