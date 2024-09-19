@@ -38,7 +38,7 @@ export class AuthorInfoComponent implements OnInit {
   authorLoaded = false;
   hasBooks = false;
 
-  currentPage: number = 0;
+  currentPage: number = 1;
   pageSize: number = 10;
   totalPages: number = 1;
 
@@ -65,7 +65,8 @@ export class AuthorInfoComponent implements OnInit {
   loadAuthor() {
     this.route.params.subscribe((params: Params) => {
       const id = params['id'];
-      this.authorService.getById(id).subscribe(author => {
+      this.authorService.getById(id).subscribe(
+        author => {
         this.author = author;
         this.authorLoaded = true;
       });

@@ -1,5 +1,6 @@
 import { BookRequestDto } from '../interfaces/book/requests/book-request-dto.interface';
 import { GetAllBooksRequestDto } from '../interfaces/book/requests/get-all-books-request-dto.interface';
+import { BookEditInfo } from '../interfaces/book/responses/book-edit-info.interface';
 import { BookResponseDto } from '../interfaces/book/responses/book-response-dto.interface';
 import { BooksResponseDto } from '../interfaces/book/responses/books-response-dto.interface';
 
@@ -20,6 +21,10 @@ export class BookService {
 
   getAll(request: GetAllBooksRequestDto): Observable<BooksResponseDto> {
     return this.http.post<BooksResponseDto>('/api/books/getAll', request);
+  }
+
+  getBookEditInfo(): Observable<BookEditInfo> {
+    return this.http.get<BookEditInfo>('/api/books/EditInfo');
   }
 
   deleteById(id: string): Observable<void> {

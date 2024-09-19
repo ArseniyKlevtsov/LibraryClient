@@ -23,7 +23,7 @@ export class GenresPageComponent implements OnInit {
 
   genres: GenresResponseDto;
 
-  currentPage: number = 0;
+  currentPage: number = 1;
   pageSize: number = 10;
   totalPages: number = 1;
 
@@ -56,8 +56,8 @@ export class GenresPageComponent implements OnInit {
     this.genreService.getAll(request).subscribe(genres => {
       this.loading = false;
       this.genres = genres;
-      this.totalPages = this.totalPages;
+      this.totalPages = genres.totalPages;
     })
   }
-
+  
 }

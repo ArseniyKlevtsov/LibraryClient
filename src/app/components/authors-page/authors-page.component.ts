@@ -21,7 +21,7 @@ export class AuthorsPageComponent implements OnInit {
 
   authors: AuthorsResponseDto;
 
-  currentPage: number = 0;
+  currentPage: number = 1;
   pageSize: number = 10;
   totalPages: number = 1;
 
@@ -51,10 +51,10 @@ export class AuthorsPageComponent implements OnInit {
       page: currentPage,
       pageSize: pageSize,
     }
-    this.authorService.getAll(request).subscribe(genres => {
+    this.authorService.getAll(request).subscribe(authors => {
       this.loading = false;
-      this.authors = genres;
-      this.totalPages = this.totalPages;
+      this.authors = authors;
+      this.totalPages = authors.totalPages;
     })
   }
 }

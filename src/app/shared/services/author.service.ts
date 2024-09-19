@@ -15,7 +15,7 @@ export class AuthorService {
   constructor(private http: HttpClient) { }
 
   getById(id: string): Observable<AuthorResponseDto> {
-    return this.http.get<AuthorResponseDto>('/api/authors/'+ id);
+    return this.http.get<AuthorResponseDto>('/api/authors/'+ id); 
   }
 
   getAll(request: GetAllAuthorsRequestDto): Observable<AuthorsResponseDto> {

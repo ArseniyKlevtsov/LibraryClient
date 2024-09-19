@@ -21,7 +21,7 @@ export class BooksPageComponent implements OnInit {
 
   books: BooksResponseDto;
 
-  currentPage: number = 0;
+  currentPage: number = 1;
   pageSize: number = 10;
   totalPages: number = 1;
 

@@ -19,6 +19,7 @@ export class PaginatorComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.currentPage = parseInt(params['pageNumber'], 10) || 1;
     });
+    console.log(this.currentPage)
   }
 
   goToPage(page: number) {

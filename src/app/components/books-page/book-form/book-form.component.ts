@@ -8,8 +8,6 @@ import { MaterialService } from '../../../shared/services/material.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BookRequestDto } from '../../../shared/interfaces/book/requests/book-request-dto.interface';
 import { isbnRegex } from '../../../shared/consts/isbn-regex.const';
-import { GenreService } from '../../../shared/services/genre.service';
-import { AuthorService } from '../../../shared/services/author.service';
 import { AuthorResponseDto } from '../../../shared/interfaces/author/responses/author-response-dto.interface';
 import { GenreResponseDto } from '../../../shared/interfaces/genre/responses/genre-response-dto.interface';
 
@@ -40,8 +38,6 @@ export class BookFormComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private genreService: GenreService,
-    private authorService: AuthorService,
     private router: Router,
     private route: ActivatedRoute) {
 
@@ -56,29 +52,26 @@ export class BookFormComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.loadBook();
+    if(this.isNew == false) {
+      this.loadBook();
+    }
     this.loadSelectData();
-    MaterialService.initFormSelect();
   }
   
   loadSelectData() {
-    forkJoin([
-      this.authorService.getAll({ page: 1, pageSize: 100 }),
-      this.genreService.getAll({ page: 1, pageSize: 100 })
-    ]).pipe(
-      tap(([authors, genres]) => {
-        this.authors = authors.authors;
-        this.genres = genres.genres;
-        
-      })
+    this.bookService.getBookEditInfo().subscribe( 
+      (bookEditInfo) =>
+      {
+        this.authors = bookEditInfo.authors;
+        this.genres = bookEditInfo.genres;
+        setTimeout(() => {MaterialService.initFormSelect();},300);
+
+      }
     )
-    .subscribe();
   }
 
   refresh() {
     MaterialService.initFormSelect();
-    console.log(this.form.value['authorId'])
-    console.log(this.form.value['genreIds'])
   }
 
   handleResponse = (data: any) => {

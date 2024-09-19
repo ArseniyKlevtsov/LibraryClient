@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   login(user: LoginRequestDto): Observable<TokenResponse> {
-    return this.http.post<TokenResponse>( // Измените тип ответа на TokenResponse
+    return this.http.post<TokenResponse>(
       '/api/auth/login',
       user
     ).pipe(
