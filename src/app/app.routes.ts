@@ -52,7 +52,7 @@ export const routes: Routes = [
       { path: 'genres/info/:id', component: GenreInfoComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
       { path: 'genres/add', component: GenreFormComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
       { path: 'genres/edit/:id', component: GenreFormComponent, canActivate: [adminGuard], canActivateChild: [adminGuard] },
-
+      
       { path: 'userProfile', component: UserProfileComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
 
       { path: 'accesDenied', component: AccessDeniedPageComponent },

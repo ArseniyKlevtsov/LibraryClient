@@ -1,9 +1,9 @@
 import { ActivatedRoute, Params, RouterLink } from '@angular/router';
-import { BookResponseDto } from './../../../shared/interfaces/book/responses/book-response-dto.interface';
 import { Component } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth.service';
 import { BookService } from '../../../shared/services/book.service';
 import { NgIf } from '@angular/common';
+import { BookInfoResponseDto } from '../../../shared/interfaces/book/responses/book-info-response-dto.interface';
 
 @Component({
   selector: 'app-book-info',
@@ -13,7 +13,7 @@ import { NgIf } from '@angular/common';
   styleUrl: './book-info.component.css'
 })
 export class BookInfoComponent {
-  book: BookResponseDto = {
+  book: BookInfoResponseDto = {
       id: "",
       isbn: "",
       name: "",
@@ -41,10 +41,14 @@ export class BookInfoComponent {
   loadBook() {
     this.route.params.subscribe((params: Params) => {
       const id = params['id'];
-      this.bookService.getById(id).subscribe(
+      this.bookService.getBookInfo(id).subscribe(
         book => {
         this.book = book;
       });
     });
   }
+
+  get genreList(): string {
+    return this.book.genres?.map((genre: any) => genre.name).join(', ') || 'No genres';
+}
 }

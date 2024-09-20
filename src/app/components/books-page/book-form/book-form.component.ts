@@ -28,7 +28,6 @@ export class BookFormComponent implements OnInit {
     description: "",
     authorId: "",
     genreIds: [],
-    rentedBookIds: []
   }
   genres: GenreResponseDto[];
   authors: AuthorResponseDto[];
@@ -38,7 +37,8 @@ export class BookFormComponent implements OnInit {
 
   @ViewChild('imageRef') imageRef: ElementRef;
   image: File;
-  imagePreview: string | ArrayBuffer = "";
+  loadedBase64Img: string | null = null;
+  imagePreview: string | ArrayBuffer = null;
 
   constructor(
     private bookService: BookService,
@@ -52,27 +52,40 @@ export class BookFormComponent implements OnInit {
       description: new FormControl("", [Validators.required, Validators.maxLength(1000)]),
       authorId: new FormControl(null, Validators.required),
       genreIds: new FormControl([], Validators.required),
+      image: new FormControl(null, [Validators.required]),
       availableCount: new FormControl("0", [Validators.required, Validators.min(1), Validators.max(2147483647), Validators.pattern("^[0-9]*$")]),
       totalCount: new FormControl("1", [Validators.required, Validators.min(1), Validators.max(2147483647), Validators.pattern("^[0-9]*$")]),
     })
 
+    this.form.get('availableCount')?.valueChanges.subscribe((availableCount) => {
+      const totalCount = this.form.get('totalCount')?.value;
+
+      if (Number(availableCount) > Number(totalCount)) {
+        this.form.get('totalCount')?.setValue(availableCount);
+      }
+    });
+
+    this.form.get('totalCount')?.valueChanges.subscribe((totalCount) => {
+      const availableCount = this.form.get('availableCount')?.value;
+
+      if (Number(totalCount) < Number(availableCount)) {
+        this.form.get('totalCount')?.setValue(availableCount);
+      }
+    });
   }
 
   ngOnInit() {
-    if (this.isNew == false) {
-      this.loadBook();
-    }
-    this.loadSelectData();
+    this.loadData();
+    this.loadBook();
   }
 
-  loadSelectData() {
+  loadData() {
     this.bookService.getBookEditInfo().subscribe(
       (bookEditInfo) => {
         this.authors = bookEditInfo.authors;
         this.genres = bookEditInfo.genres;
         this.cdr.detectChanges();
         MaterialService.initFormSelect();
-        MaterialService.updateTextFields();
       }
     )
   }
@@ -94,7 +107,6 @@ export class BookFormComponent implements OnInit {
             this.isNew = false
             return this.bookService.getById(params['id'])
           }
-
           return of(null);
         })
       )
@@ -106,12 +118,16 @@ export class BookFormComponent implements OnInit {
               isbn: book.isbn,
               name: book.name,
               description: book.description,
-              bookImageId: book.bookImageId,
+              image: book.image,
               authorId: book.authorId,
+              availableCount: book.availableCount,
+              totalCount: book.totalCount,
               genreIds: book.genreIds,
             });
-            MaterialService.updateTextFields();
+            this.imagePreview = book.image
           }
+          this.cdr.detectChanges();
+          this.updadeMaterialize();
           this.form.enable();
         },
         error: error => MaterialService.toast("Failed to upload data"),
@@ -132,61 +148,57 @@ export class BookFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.image) {
+    if (!this.book.image) {
       MaterialService.toast("Select Image to send form");
       return;
     }
-    
-    const reader = new FileReader();
-    
-    reader.onload = () => {
-      const base64Image = (reader.result as string).split(',')[1]; 
-      const bookRequestDto: BookRequestDto = {
-        isbn: this.form.value['isbn'],
-        name: this.form.value['name'],
-        description: this.form.value['description'],
-        authorId: this.form.value['authorId'],
-        image: base64Image, 
-        availableCount: this.form.value['availableCount'],
-        totalCount: this.form.value['totalCount'], 
-        genreIds: this.form.value['genreIds'],
-      };
-  
-      if (this.isNew) {
-        this.bookService.add(bookRequestDto).subscribe({
-          next: this.handleResponse,
-          error: this.handleError
-        });
-      } else {
-        this.bookService.update(this.book.id, bookRequestDto).subscribe({
-          next: this.handleResponse,
-          error: this.handleError
-        });
-      }
+
+    const bookRequestDto: BookRequestDto = {
+      isbn: this.form.value['isbn'],
+      name: this.form.value['name'],
+      description: this.form.value['description'],
+      authorId: this.form.value['authorId'],
+      image: this.form.value['image'],
+      availableCount: this.form.value['availableCount'],
+      totalCount: this.form.value['totalCount'],
+      genreIds: this.form.value['genreIds'],
     };
-  
-    reader.onerror = () => {
-      MaterialService.toast("Error reading file");
+
+    if (this.isNew) {
+      this.bookService.add(bookRequestDto).subscribe({
+        next: this.handleResponse,
+        error: this.handleError
+      });
+    } else {
+      this.bookService.update(this.book.id, bookRequestDto).subscribe({
+        next: this.handleResponse,
+        error: this.handleError
+      });
     };
-  
-    reader.readAsDataURL(this.image);
   }
 
   triggerClick() {
-      this.imageRef.nativeElement.click()
-    }
+    this.imageRef.nativeElement.click()
+  }
 
   onFileUpload(event: Event) {
-      const file: File = event.target['files'][0];
-      this.image = file;
-      const reader = new FileReader();
+    const file: File = event.target['files'][0];
+    this.image = file;
+    const reader = new FileReader();
 
-      reader.onload = () => {
-        this.imagePreview = reader.result as string
-      }
+    reader.onload = () => {
+      this.book.image = reader.result as string;
+    }
 
     reader.readAsDataURL(file);
-      MaterialService.initMaterialBoxed();
-    }
+    this.updadeMaterialize();
+  }
+
+  updadeMaterialize() {
+    MaterialService.initMaterialBoxed();
+    MaterialService.updateTextFields();
+    MaterialService.initFormSelect();
+  }
+
 
 }

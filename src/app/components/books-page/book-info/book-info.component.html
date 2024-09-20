@@ -1,21 +1,38 @@
-<p>book-info works!</p>
 <div class="page-title">
 
-    <h4>
-        <a href="/books">Books</a>
-        <i class="material-icons">keyboard_arrow_right</i>
-        {{ book.name}}
-    </h4>
-    <p>
-        <b>Name:</b> {{book.name}}<br>
+  <h4>
+    <a href="/books">Books</a>
+    <i class="material-icons">keyboard_arrow_right</i>
+    {{ book.name}}
+  </h4>
 
-    </p>
-
-    <span *ngIf="isAdmin">
-        <a class="btn btn-small blue" [routerLink]="['/books/edit/' + book.id]">
-            <i class="material-icons">edit</i>
-        </a>
-    </span>
+  <span *ngIf="isAdmin">
+    <a class="btn btn-small blue" [routerLink]="['/books/edit/' + book.id]">
+      <i class="material-icons">edit</i>
+    </a>
+  </span>
 
 </div>
 
+<div class="card book-card">
+  <div class="card-image">
+    <img class="responsive-img materialboxed" [src]="'data:image/jpeg;base64,' + book.image">
+  </div>
+  <div class="card-content">
+    <p>{{book.name}}</p>
+  </div>
+</div>
+
+<div>
+  <h5>
+    Author:
+  </h5>
+  <h6 *ngIf="book.author"> {{book.author.name + " " + book.author.surname}}</h6>
+  <h5>Count: {{book.availableCount}}/{{book.totalCount}}</h5>
+  <a *ngIf="book.availableCount>0" class="btn orange darken-2" routerLinkActive="router-link-active"
+            [routerLink]="['/rentBook/' + book.id]">Rent now</a>
+  <h5>Genres: {{ genreList }}</h5>
+  <h5>Description:</h5>
+  <p> {{book.description}}</p>
+
+</div>

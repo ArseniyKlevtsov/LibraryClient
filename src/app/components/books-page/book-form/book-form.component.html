@@ -154,6 +154,13 @@
       <button class="btn btn-small blue" type="submit" [disabled]="form.invalid || form.disabled">
         <i class="material-icons">save</i>
       </button>
+      <span>
+        | костыль ->
+        <button class="btn btn-small blue" (click)="updadeMaterialize()" type="button">
+          <i class="material-icons">replay</i>
+        </button>
+        
+      </span>
       <span *ngIf="!isNew">
         |
         <button class="btn btn-small red" (click)="deleteBook()" type="button">
@@ -166,18 +173,16 @@
 
   <div class="col s2"></div>
 
-  <div class="col s3">
-
-    <div class="card book-card" *ngIf="imagePreview">
+  <div class="col s3" *ngIf="book.image">
+    <div class="card book-card">
       <div class="card-image">
-        <img class="responsive-img materialboxed" [src]="imagePreview">
+        <img class="responsive-img materialboxed" [src]="'data:image/jpeg;base64,' + book.image">
         <span class="card-title">Selected Image</span>
       </div>
       <div class="card-content">
         <p>This is preview image on card</p>
       </div>
     </div>
-
-
   </div>
+
 </div>
