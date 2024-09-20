@@ -47,8 +47,6 @@ export const routes: Routes = [
       { path: 'books/info/:id', component: BookInfoComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
       { path: 'books/add', component: BookFormComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
       { path: 'books/edit/:id', component: BookFormComponent, canActivate: [adminGuard], canActivateChild: [adminGuard] },
-      { path: 'books/editImage/:id', component: BookFormComponent, canActivate: [adminGuard], canActivateChild: [adminGuard] },
-      { path: 'books/editInventory/:id', component: BookFormComponent, canActivate: [adminGuard], canActivateChild: [adminGuard] },
 
       { path: 'genres', component: GenresPageComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
       { path: 'genres/info/:id', component: GenreInfoComponent, canActivate: [authGuard], canActivateChild: [authGuard] },

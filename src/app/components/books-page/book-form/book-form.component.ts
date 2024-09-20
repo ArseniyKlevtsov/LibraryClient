@@ -1,8 +1,8 @@
 import { BookResponseDto } from './../../../shared/interfaces/book/responses/book-response-dto.interface';
-import { Component, ElementRef, OnInit, ViewChild, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { forkJoin, of, switchMap, tap, timeout } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 import { BookService } from '../../../shared/services/book.service';
 import { MaterialService } from '../../../shared/services/material.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -36,42 +36,45 @@ export class BookFormComponent implements OnInit {
   bookLoaded = false;
   form: FormGroup;
 
+  @ViewChild('imageRef') imageRef: ElementRef;
+  image: File;
+  imagePreview: string | ArrayBuffer = "";
+
   constructor(
     private bookService: BookService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef) {
 
     this.form = new FormGroup({
-      isbn: new FormControl("", [Validators.required, Validators.pattern(isbnRegex)]),
+      isbn: new FormControl("ISBN-13: 978-0-000-00000-0", [Validators.required, Validators.pattern(isbnRegex)]),
       name: new FormControl("", [Validators.required, Validators.maxLength(100)]),
       description: new FormControl("", [Validators.required, Validators.maxLength(1000)]),
       authorId: new FormControl(null, Validators.required),
       genreIds: new FormControl([], Validators.required),
+      availableCount: new FormControl("0", [Validators.required, Validators.min(1), Validators.max(2147483647), Validators.pattern("^[0-9]*$")]),
+      totalCount: new FormControl("1", [Validators.required, Validators.min(1), Validators.max(2147483647), Validators.pattern("^[0-9]*$")]),
     })
-    
+
   }
-  
+
   ngOnInit() {
-    if(this.isNew == false) {
+    if (this.isNew == false) {
       this.loadBook();
     }
     this.loadSelectData();
   }
-  
+
   loadSelectData() {
-    this.bookService.getBookEditInfo().subscribe( 
-      (bookEditInfo) =>
-      {
+    this.bookService.getBookEditInfo().subscribe(
+      (bookEditInfo) => {
         this.authors = bookEditInfo.authors;
         this.genres = bookEditInfo.genres;
-        setTimeout(() => {MaterialService.initFormSelect();},300);
-
+        this.cdr.detectChanges();
+        MaterialService.initFormSelect();
+        MaterialService.updateTextFields();
       }
     )
-  }
-
-  refresh() {
-    MaterialService.initFormSelect();
   }
 
   handleResponse = (data: any) => {
@@ -129,24 +132,61 @@ export class BookFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const bookRequestDto: BookRequestDto = {
-      isbn: this.form.value['isbn'],
-      name: this.form.value['name'],
-      description: this.form.value['description'],
-      authorId: this.form.value['description'],
-      genreIds: this.form.value['genreIds'],
-    };
-
-    if (this.isNew) {
-      this.bookService.add(bookRequestDto).subscribe({
-        next: this.handleResponse,
-        error: this.handleError
-      });
-    } else {
-      this.bookService.update(this.book.id, bookRequestDto).subscribe({
-        next: this.handleResponse,
-        error: this.handleError
-      });
+    if (!this.image) {
+      MaterialService.toast("Select Image to send form");
+      return;
     }
+    
+    const reader = new FileReader();
+    
+    reader.onload = () => {
+      const base64Image = (reader.result as string).split(',')[1]; 
+      const bookRequestDto: BookRequestDto = {
+        isbn: this.form.value['isbn'],
+        name: this.form.value['name'],
+        description: this.form.value['description'],
+        authorId: this.form.value['authorId'],
+        image: base64Image, 
+        availableCount: this.form.value['availableCount'],
+        totalCount: this.form.value['totalCount'], 
+        genreIds: this.form.value['genreIds'],
+      };
+  
+      if (this.isNew) {
+        this.bookService.add(bookRequestDto).subscribe({
+          next: this.handleResponse,
+          error: this.handleError
+        });
+      } else {
+        this.bookService.update(this.book.id, bookRequestDto).subscribe({
+          next: this.handleResponse,
+          error: this.handleError
+        });
+      }
+    };
+  
+    reader.onerror = () => {
+      MaterialService.toast("Error reading file");
+    };
+  
+    reader.readAsDataURL(this.image);
   }
+
+  triggerClick() {
+      this.imageRef.nativeElement.click()
+    }
+
+  onFileUpload(event: Event) {
+      const file: File = event.target['files'][0];
+      this.image = file;
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.imagePreview = reader.result as string
+      }
+
+    reader.readAsDataURL(file);
+      MaterialService.initMaterialBoxed();
+    }
+
 }

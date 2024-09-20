@@ -75,7 +75,7 @@
     </div>
 
     <div class="input-field">
-      <select  formControlName="authorId">
+      <select formControlName="authorId">
         <option value="" disabled>Choose your option</option>
         <ng-container *ngFor="let author of authors">
           <option [value]="author.id">
@@ -96,12 +96,61 @@
       <label>Select genres</label>
     </div>
 
+    <div class="row">
+
+      <div class="input-field col s5">
+        <input id="availableCount" formControlName="availableCount" type="number"
+          [ngClass]="{'invalid': form.get('name').invalid && form.get('name').touched} " min="0" max="2147483648">
+
+        <label for="availableCount">Available count</label>
+
+        <div *ngIf="form.get('availableCount').invalid && form.get('availableCount').touched">
+          <div class="red-text text-darken-2" *ngIf="form.get('availableCount').errors['required']">
+            Available count is required.
+          </div>
+          <div class="red-text text-darken-2" *ngIf="form.get('availableCount').errors['max']">
+            max 2147483648
+          </div>
+        </div>
+      </div>
+
+      <div class="col s2">
+      </div>
+
+      <div class="input-field col s5">
+
+        <input id="totalCount" formControlName="totalCount" type="number"
+          [ngClass]="{'invalid': form.get('name').invalid && form.get('name').touched}" min="1" max="2147483648">
+
+        <label for="totalCount">Total count</label>
+
+        <div *ngIf="form.get('totalCount').invalid && form.get('totalCount').touched">
+          <div class="red-text text-darken-2" *ngIf="form.get('totalCount').errors['required']">
+            Total count is required.
+          </div>
+          <div class="red-text text-darken-2" *ngIf="form.get('totalCount').errors['max']">
+            max 2147483648
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="input-field col s5">
+        <input type="file" class="dn" (change)="onFileUpload($event)" #imageRef>
+        <button (click)="triggerClick()" [disabled]="form.disabled" type="button"
+          class="waves-effect waves-light btn orange lighten-2 mb2">
+          <i class="material-icons left">backup</i>
+          Select image
+        </button>
+      </div>
+    </div>
+
     <p></p>
 
     <span>
-      <button class="btn btn-small blue" (click)="refresh()" type="button">
-        <i class="material-icons">refresh</i>
-      </button>
       <button class="btn btn-small blue" type="submit" [disabled]="form.invalid || form.disabled">
         <i class="material-icons">save</i>
       </button>
@@ -114,4 +163,21 @@
     </span>
 
   </form>
+
+  <div class="col s2"></div>
+
+  <div class="col s3">
+
+    <div class="card book-card" *ngIf="imagePreview">
+      <div class="card-image">
+        <img class="responsive-img materialboxed" [src]="imagePreview">
+        <span class="card-title">Selected Image</span>
+      </div>
+      <div class="card-content">
+        <p>This is preview image on card</p>
+      </div>
+    </div>
+
+
+  </div>
 </div>

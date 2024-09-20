@@ -1,9 +1,10 @@
 export interface BookRequestDto {
-  isbn?: string;
-  name?: string;
-  description?: string;
-  bookImageId?: string,
-  inventoryId?: string,
-  authorId?: string;
-  genreIds?: string[];
+  isbn?: string;                  
+  name?: string;                  
+  description?: string;          
+  authorId?: string;          
+  image?: string ;             
+  availableCount?: number;        
+  totalCount?: number;            
+  genreIds?: string[];            
 }

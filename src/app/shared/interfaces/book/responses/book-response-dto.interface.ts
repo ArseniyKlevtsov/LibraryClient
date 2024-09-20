@@ -1,11 +1,14 @@
+import { AuthorResponseDto } from "../../author/responses/author-response-dto.interface";
+import { GenreResponseDto } from "../../genre/responses/genre-response-dto.interface";
+
 export interface BookResponseDto {
-    id?: string;
-    isbn?: string;
-    name?: string;
-    description?: string;
-    bookImageId?: string;
-    inventoryId?: string;
-    authorId: string;
-    genreIds?: string[];
-    rentedBookIds?: string[];
-  }
+  id?: string;
+  isbn?: string;
+  name?: string;
+  description?: string;
+  author?: AuthorResponseDto;
+  image?: string;
+  availableCount?: number;
+  totalCount?: number;
+  genres?: GenreResponseDto[];
+}

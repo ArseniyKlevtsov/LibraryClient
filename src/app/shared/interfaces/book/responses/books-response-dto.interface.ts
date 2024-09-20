@@ -1,7 +1,7 @@
-import { BookResponseDto } from "./book-response-dto.interface";
+import { BookPreviewResponseDto } from "./book-preview-response-dto.interface";
 
 export interface BooksResponseDto {
     totalCount: number;
     totalPages: number;
-    books?: BookResponseDto[];
+    books?: BookPreviewResponseDto[];
   }

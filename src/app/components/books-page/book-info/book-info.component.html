@@ -1,1 +1,21 @@
 <p>book-info works!</p>
+<div class="page-title">
+
+    <h4>
+        <a href="/books">Books</a>
+        <i class="material-icons">keyboard_arrow_right</i>
+        {{ book.name}}
+    </h4>
+    <p>
+        <b>Name:</b> {{book.name}}<br>
+
+    </p>
+
+    <span *ngIf="isAdmin">
+        <a class="btn btn-small blue" [routerLink]="['/books/edit/' + book.id]">
+            <i class="material-icons">edit</i>
+        </a>
+    </span>
+
+</div>
+
