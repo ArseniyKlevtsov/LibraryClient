@@ -159,7 +159,7 @@
         <button class="btn btn-small blue" (click)="updadeMaterialize()" type="button">
           <i class="material-icons">replay</i>
         </button>
-        
+
       </span>
       <span *ngIf="!isNew">
         |
@@ -176,7 +176,8 @@
   <div class="col s3" *ngIf="book.image">
     <div class="card book-card">
       <div class="card-image">
-        <img class="responsive-img materialboxed" [src]="'data:image/jpeg;base64,' + book.image">
+        <img class="responsive-img materialboxed"
+          [src]="book.image.startsWith('data:') ? book.image : 'data:image/jpeg;base64,' + book.image">
         <span class="card-title">Selected Image</span>
       </div>
       <div class="card-content">

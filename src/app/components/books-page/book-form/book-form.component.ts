@@ -28,6 +28,8 @@ export class BookFormComponent implements OnInit {
     description: "",
     authorId: "",
     genreIds: [],
+    availableCount: 0,
+    totalCount: 0
   }
   genres: GenreResponseDto[];
   authors: AuthorResponseDto[];
@@ -37,8 +39,6 @@ export class BookFormComponent implements OnInit {
 
   @ViewChild('imageRef') imageRef: ElementRef;
   image: File;
-  loadedBase64Img: string | null = null;
-  imagePreview: string | ArrayBuffer = null;
 
   constructor(
     private bookService: BookService,
@@ -52,7 +52,6 @@ export class BookFormComponent implements OnInit {
       description: new FormControl("", [Validators.required, Validators.maxLength(1000)]),
       authorId: new FormControl(null, Validators.required),
       genreIds: new FormControl([], Validators.required),
-      image: new FormControl(null, [Validators.required]),
       availableCount: new FormControl("0", [Validators.required, Validators.min(1), Validators.max(2147483647), Validators.pattern("^[0-9]*$")]),
       totalCount: new FormControl("1", [Validators.required, Validators.min(1), Validators.max(2147483647), Validators.pattern("^[0-9]*$")]),
     })
@@ -118,13 +117,11 @@ export class BookFormComponent implements OnInit {
               isbn: book.isbn,
               name: book.name,
               description: book.description,
-              image: book.image,
               authorId: book.authorId,
               availableCount: book.availableCount,
               totalCount: book.totalCount,
               genreIds: book.genreIds,
             });
-            this.imagePreview = book.image
           }
           this.cdr.detectChanges();
           this.updadeMaterialize();
@@ -158,7 +155,7 @@ export class BookFormComponent implements OnInit {
       name: this.form.value['name'],
       description: this.form.value['description'],
       authorId: this.form.value['authorId'],
-      image: this.form.value['image'],
+      image: this.book.image,
       availableCount: this.form.value['availableCount'],
       totalCount: this.form.value['totalCount'],
       genreIds: this.form.value['genreIds'],
@@ -187,7 +184,10 @@ export class BookFormComponent implements OnInit {
     const reader = new FileReader();
 
     reader.onload = () => {
-      this.book.image = reader.result as string;
+      const base64String = (reader.result as string).split(',')[1];
+      this.book.image = base64String; 
+      this.cdr.detectChanges();
+      this.cdr.detectChanges();
     }
 
     reader.readAsDataURL(file);
