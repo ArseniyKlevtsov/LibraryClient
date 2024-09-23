@@ -4,7 +4,49 @@
     Add book</button>
 </div>
 
-<div></div>
+<div class="row">
+  <div class="advanced-search col s12">
+    <h5>Advanced search</h5>
+    <div class="row">
+      <form [formGroup]="bookFilterForm" (ngSubmit)="onSubmit()">
+        <div class="input-field col s3">
+          <input placeholder="Ava" id="first_name" type="text" formControlName="name">
+          <label for="first_name">Name</label>
+        </div>
+
+        <div class="input-field col s4">
+          <select formControlName="authorId">
+            <option value="" disabled>Choose your option</option>
+            <ng-container *ngFor="let author of authors">
+              <option [value]="author.id">
+                {{ author.name + " " + author.surname }}
+              </option>
+            </ng-container>
+          </select>
+          <label>Select Author</label>
+        </div>
+
+        <div class="input-field col s4">
+          <select formControlName="genreId">
+            <option value="" disabled>Choose your option</option>
+            <option [value]="genre.id" *ngFor="let genre of genres">
+              {{genre.name}}
+            </option>
+          </select>
+          <label>Select genre</label>
+        </div>
+        <button class="btn" type="submit">
+          <i class="material-icons">search</i>
+        </button>
+        |
+        <button class="btn" type="submit" (click)="resetFilters()">
+          <i class="material-icons">clear</i>
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>
 
 <div class="row">
 
@@ -18,11 +60,11 @@
       <div class="card-content">
         <span class="card-title activator grey-text text-darken-4">{{book.name}}<i
             class="material-icons right">more_vert</i></span>
-          <button class="waves-effect waves-light btn orange darken-2" routerLinkActive="router-link-active"
-            (click)="inCart(book)" type="button">In cart</button>
-            <br><br>
-          <a class="waves-effect waves-light btn" routerLinkActive="router-link-active"
-            [routerLink]="['/books/info/' + book.id]">Open</a>
+        <button class="waves-effect waves-light btn orange darken-2" routerLinkActive="router-link-active"
+          (click)="inCart(book)" type="button">In cart</button>
+        <br><br>
+        <a class="waves-effect waves-light btn" routerLinkActive="router-link-active"
+          [routerLink]="['/books/info/' + book.id]">Open</a>
       </div>
 
       <div class="card-reveal">

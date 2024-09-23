@@ -13,11 +13,12 @@ import { CartRentedBook } from '../../shared/interfaces/rented-book/cart-rented-
 import { MaterialService } from '../../shared/services/material.service';
 import { GenreResponseDto } from '../../shared/interfaces/genre/responses/genre-response-dto.interface';
 import { AuthorResponseDto } from '../../shared/interfaces/author/responses/author-response-dto.interface';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-books-page',
   standalone: true,
-  imports: [LoaderComponent, NgIf, NgFor, PaginatorComponent, RouterModule],
+  imports: [LoaderComponent, NgIf, NgFor, PaginatorComponent, RouterModule, ReactiveFormsModule],
   templateUrl: './books-page.component.html',
   styleUrl: './books-page.component.css'
 })
@@ -26,12 +27,14 @@ export class BooksPageComponent implements OnInit {
   isAdmin = false;
 
   books: BooksResponseDto;
-  
+
   genres: GenreResponseDto[];
   authors: AuthorResponseDto[];
 
+  bookFilterForm: FormGroup;
+
   currentPage: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 8;
   totalPages: number = 1;
 
   bookImagesIds: string[] = [];
@@ -42,11 +45,19 @@ export class BooksPageComponent implements OnInit {
     private authService: AuthService,
     private cartService: CartService,
     private cdr: ChangeDetectorRef) {
+
+    this.bookFilterForm = new FormGroup({
+      name: new FormControl(null),
+      authorId: new FormControl(null),
+      genreId: new FormControl(null),
+    })
   }
+
 
   ngOnInit(): void {
     this.isAdmin = this.authService.isAdmin();
     this.loadPage(this.currentPage, this.pageSize);
+    this.loadData();
   }
 
   onPageChange(page: number): void {
@@ -58,6 +69,17 @@ export class BooksPageComponent implements OnInit {
     this.loadBooks(currentPage, pageSize);
   }
 
+  loadData() {
+    this.bookService.getBookEditInfo().subscribe(
+      (bookEditInfo) => {
+        this.authors = bookEditInfo.authors;
+        this.genres = bookEditInfo.genres;
+        this.cdr.detectChanges();
+        MaterialService.initFormSelect();
+      }
+    )
+  }
+
   loadBooks(currentPage: number, pageSize: number): void {
     this.loading = true
     this.books = {
@@ -65,14 +87,21 @@ export class BooksPageComponent implements OnInit {
       totalCount: 0,
       totalPages: 0
     };
+
+    const filterValues = this.bookFilterForm.value;
+
     let request: GetAllBooksRequestDto = {
       page: currentPage,
       pageSize: pageSize,
-    }
+      bookNameFilter: filterValues.name,
+      authorId: filterValues.authorId,
+      genreId: filterValues.genreIds
+    };
+
     this.bookService.getAll(request).subscribe(genres => {
       this.loading = false;
       this.books = genres;
-      this.totalPages = this.totalPages;
+      this.totalPages = genres.totalPages;
     })
   }
 
@@ -82,5 +111,19 @@ export class BooksPageComponent implements OnInit {
       book: book
     }
     this.cartService.addToCart(cartRentedBook);
+  }
+
+  onSubmit() {
+    this.currentPage = 1
+    this.loadPage(this.currentPage, this.pageSize);
+  }
+
+  resetFilters() {
+    this.bookFilterForm.reset({
+      name: null,
+      authorId: null,
+      genreId: null
+    });
+    MaterialService.initFormSelect();
   }
 }

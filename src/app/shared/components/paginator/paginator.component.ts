@@ -34,6 +34,7 @@ export class PaginatorComponent implements OnInit {
 
   nextPage() {
     this.goToPage(this.currentPage + 1);
+    console.log(this.totalPages)
   }
 
 }
