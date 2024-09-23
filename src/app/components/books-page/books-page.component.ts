@@ -95,7 +95,7 @@ export class BooksPageComponent implements OnInit {
       pageSize: pageSize,
       bookNameFilter: filterValues.name,
       authorId: filterValues.authorId,
-      genreId: filterValues.genreIds
+      genreId: filterValues.genreId
     };
 
     this.bookService.getAll(request).subscribe(genres => {

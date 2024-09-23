@@ -29,9 +29,11 @@
         <div class="input-field col s4">
           <select formControlName="genreId">
             <option value="" disabled>Choose your option</option>
-            <option [value]="genre.id" *ngFor="let genre of genres">
-              {{genre.name}}
-            </option>
+            <ng-container *ngFor="let genre of genres">
+              <option [value]="genre.id">
+                {{genre.name}}
+              </option>
+            </ng-container>
           </select>
           <label>Select genre</label>
         </div>
