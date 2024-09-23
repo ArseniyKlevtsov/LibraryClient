@@ -1,27 +1,51 @@
-# Client
+Использовал стили Materialize (типа bootstrap)
+Есть прокси файл для смены адреса бэка
+Для прикрепления токена авторизации и обработки ошибок сделал интерсепторы
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8.
+Возможно структура кода покажется анархичной, первый раз работал с ангуляр, да и с js/ts особо много не работал, больше по c# ._.
+Снизу пофоткал страницы
 
-## Development server
+Кэширование картинок не делал. Но кешерование для токенов и корзины
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+логин:
+![image](https://github.com/user-attachments/assets/77eb5ef2-1101-4941-b6f3-7add48e01c72)
 
-## Code scaffolding
+стартовая страницы / страница книг:
+![image](https://github.com/user-attachments/assets/89959107-1f3e-4a5a-b8d0-33c1a6d76b22)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+авторы:
+![image](https://github.com/user-attachments/assets/9124ea19-f024-46a4-8ec1-fa065b269ca9)
 
-## Build
+пример пагинации:
+![image](https://github.com/user-attachments/assets/f553d5c0-1ae9-4977-b98d-145a04ab4baa)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Страница создания/редактирования книги:
+(кнопка костыль вызывает перезагрузку стилей Materialize, почему-то они не можгут обновиться, если открывать страницу Edit, которая установит значения в селекты)
+![image](https://github.com/user-attachments/assets/9f30329c-03e8-4715-bdf8-f0aa89fa7df9)
 
-## Running unit tests
+Вот так селекты выглядят: 
+![image](https://github.com/user-attachments/assets/00ef3366-2418-4c98-99a9-b22b2802234d)
+![image](https://github.com/user-attachments/assets/8fb3c831-73ba-4648-89d1-a0dd091c63dc)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+При ошибках или успешных действиях есть уведомления:
+![image](https://github.com/user-attachments/assets/2b81e6b4-8c01-45f2-b0ae-56e0c449c768)
 
-## Running end-to-end tests
+Добавленная книга: 
+![image](https://github.com/user-attachments/assets/6983904f-c016-4f85-9e84-1552fa284217)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Корзина аренды:
+![image](https://github.com/user-attachments/assets/e3907080-29f4-424d-9840-c36cac9ea874)
 
-## Further help
+Страница с совершёнными пользователем арендами:
+![image](https://github.com/user-attachments/assets/f0145fcd-dd37-4934-9c7d-52a058949cfb)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Пример работы фильтра по автору
+![image](https://github.com/user-attachments/assets/1e168a70-54d3-4c9e-aace-6235136e8c48)
+
+
+
+
+
+
+
+
