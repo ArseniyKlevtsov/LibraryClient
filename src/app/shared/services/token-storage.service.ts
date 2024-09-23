@@ -45,7 +45,10 @@ export class TokenStorageService {
 		const isAdminString = window.localStorage.getItem(this.ADMIN_STATUS_KEY);
 		return isAdminString === 'true'; 
 	}
+	
 	public signOut(): void {
-		window.localStorage.clear();
-	}
+		window.localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+		window.localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+		window.localStorage.removeItem(this.ADMIN_STATUS_KEY);
+	  }
 }

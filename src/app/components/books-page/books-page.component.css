@@ -2,3 +2,9 @@
     min-width: 300px;
     max-width: 300px;
 }
+
+.book-card-image {
+    height: 300px;
+    width: auto;
+    object-fit: contain;
+}

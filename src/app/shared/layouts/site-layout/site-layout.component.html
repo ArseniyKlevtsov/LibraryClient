@@ -1,20 +1,18 @@
 <ul class="sidenav sidenav-fixed a-sidenav teal lighten-3 collection">
-    <h4>Library</h4>
+  <h4>Library</h4>
 
-    <li 
-    class="bold" 
-    *ngFor="let item of menuItems"
-    routerLinkActive="active"
-    >
-        <a [routerLink]="[item.url]" class="waves-effect waves-orange">
-            {{item.name}}
-        </a>
-    </li>
+  <li class="bold" *ngFor="let item of menuItems" routerLinkActive="active">
+    <a [routerLink]="[item.url]" class="waves-effect waves-orange">
+      {{item.name}} <span *ngIf="item.url === '/cart' && itemsCount>0">({{ itemsCount }})</span>
+    </a>
+    
+  </li>
 
-    <li class="bold last">
-        <a class="waves-effect waves-orange" (click)="logout($event)">Logout </a>
-    </li>
+  <li class="bold last">
+    <a class="waves-effect waves-orange" (click)="logout($event)">Logout </a>
+  </li>
 </ul>
+
 <main class="content">
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </main>

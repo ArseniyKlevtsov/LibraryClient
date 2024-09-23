@@ -30,3 +30,9 @@
     max-width: 200px;
     min-width: 200px;
 }
+
+.book-card-image {
+    height: 300px;
+    width: auto;
+    object-fit: contain;
+}

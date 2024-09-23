@@ -4,25 +4,25 @@
     Add book</button>
 </div>
 
+<div></div>
+
 <div class="row">
 
   <div class="col s2 book-card" *ngFor="let book of books.books">
     <div class="card">
 
       <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" [src]="'data:image/jpeg;base64,' + book.image">
+        <img class="activator book-card-image" [src]="'data:image/jpeg;base64,' + book.image">
       </div>
 
       <div class="card-content">
         <span class="card-title activator grey-text text-darken-4">{{book.name}}<i
             class="material-icons right">more_vert</i></span>
-        <div class="row">
-          <a class="waves-effect waves-light btn col s5 orange darken-2" routerLinkActive="router-link-active"
-            [routerLink]="['/rentBook/' + book.id]">Rent now</a>
-            <a class="col s2"></a>
-          <a class="waves-effect waves-light btn col s5" routerLinkActive="router-link-active"
+          <button class="waves-effect waves-light btn orange darken-2" routerLinkActive="router-link-active"
+            (click)="inCart(book)" type="button">In cart</button>
+            <br><br>
+          <a class="waves-effect waves-light btn" routerLinkActive="router-link-active"
             [routerLink]="['/books/info/' + book.id]">Open</a>
-        </div>
       </div>
 
       <div class="card-reveal">
@@ -30,11 +30,6 @@
         <p>{{book.description}}</p>
       </div>
     </div>
-
-  </div>
-
-  <div class="card">
-
 
   </div>
 

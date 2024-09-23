@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { CartService } from './../../shared/services/cart.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { NgFor, NgIf } from '@angular/common';
 import { PaginatorComponent } from '../../shared/components/paginator/paginator.component';
@@ -7,6 +8,11 @@ import { BooksResponseDto } from '../../shared/interfaces/book/responses/books-r
 import { BookService } from '../../shared/services/book.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { GetAllBooksRequestDto } from '../../shared/interfaces/book/requests/get-all-books-request-dto.interface';
+import { BookPreviewResponseDto } from '../../shared/interfaces/book/responses/book-preview-response-dto.interface';
+import { CartRentedBook } from '../../shared/interfaces/rented-book/cart-rented-book.interface';
+import { MaterialService } from '../../shared/services/material.service';
+import { GenreResponseDto } from '../../shared/interfaces/genre/responses/genre-response-dto.interface';
+import { AuthorResponseDto } from '../../shared/interfaces/author/responses/author-response-dto.interface';
 
 @Component({
   selector: 'app-books-page',
@@ -20,6 +26,9 @@ export class BooksPageComponent implements OnInit {
   isAdmin = false;
 
   books: BooksResponseDto;
+  
+  genres: GenreResponseDto[];
+  authors: AuthorResponseDto[];
 
   currentPage: number = 1;
   pageSize: number = 10;
@@ -30,7 +39,9 @@ export class BooksPageComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private cartService: CartService,
+    private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -54,7 +65,7 @@ export class BooksPageComponent implements OnInit {
       totalCount: 0,
       totalPages: 0
     };
-    let request : GetAllBooksRequestDto = {
+    let request: GetAllBooksRequestDto = {
       page: currentPage,
       pageSize: pageSize,
     }
@@ -63,5 +74,13 @@ export class BooksPageComponent implements OnInit {
       this.books = genres;
       this.totalPages = this.totalPages;
     })
+  }
+
+  inCart(book: BookPreviewResponseDto) {
+    let cartRentedBook: CartRentedBook = {
+      booksCount: 1,
+      book: book
+    }
+    this.cartService.addToCart(cartRentedBook);
   }
 }

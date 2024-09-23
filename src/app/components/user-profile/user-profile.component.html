@@ -1,1 +1,18 @@
-<p>user-profile works!</p>
+<div class="page-title">
+	<h4>Your rents:</h4>
+</div>
+
+<ul class="collection">
+
+	<li class="collection-item avatar" *ngFor="let rentedBook of rentedBooks"
+		[routerLink]="['/books/info/' + rentedBook.bookId]">
+		<h5 class="title">{{rentedBook.bookName}}</h5>
+		<h6>Take time: {{rentedBook.takeTime | date: 'yyyy-MM-dd'}}</h6>
+		<h6>Return time: {{rentedBook.returnTime | date: 'yyyy-MM-dd'}}</h6>
+		<span class="secondary-content">
+			<p>Order: #{{rentedBook.rentOrderId}}</p>
+			<p>Count: {{rentedBook.booksCount}}</p>
+		</span>
+	</li>
+
+</ul>

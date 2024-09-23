@@ -175,8 +175,8 @@
 
   <div class="col s3" *ngIf="book.image">
     <div class="card book-card">
-      <div class="card-image">
-        <img class="responsive-img materialboxed"
+      <div class="card-image book-card-image">
+        <img class="responsive-img materialboxed "
           [src]="book.image.startsWith('data:') ? book.image : 'data:image/jpeg;base64,' + book.image">
         <span class="card-title">Selected Image</span>
       </div>

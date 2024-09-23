@@ -17,6 +17,8 @@ import { GenreFormComponent } from './components/genres-page/genre-form/genre-fo
 
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
+import { CartComponent } from './components/cart/cart.component';
+
 import { AccessDeniedPageComponent } from './components/access-denied-page/access-denied-page.component';
 
 import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.component';
@@ -54,6 +56,8 @@ export const routes: Routes = [
       { path: 'genres/edit/:id', component: GenreFormComponent, canActivate: [adminGuard], canActivateChild: [adminGuard] },
       
       { path: 'userProfile', component: UserProfileComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
+      
+      { path: 'cart', component: CartComponent, canActivate: [authGuard], canActivateChild: [authGuard] },
 
       { path: 'accesDenied', component: AccessDeniedPageComponent },
     ]

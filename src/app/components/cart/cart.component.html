@@ -1,0 +1,25 @@
+<div class="page-title">
+	<h4>Books in your cart:</h4>
+	<a class="waves-effect waves-light btn" (click)="placeOrder()">Place order</a>
+	<a class="waves-effect waves-light btn" (click)="clearCart()">Claer cart</a>
+</div>
+<ul class="collection">
+
+	<li class="collection-item avatar" *ngFor="let item of items" [attr.data-id]="item.book.id">
+		<img class="circle" [routerLink]="['/books/info/' + item.book.id]"
+			[src]="item.book.image.startsWith('data:') ? item.book.image : 'data:image/jpeg;base64,' + item.book.image">
+
+		<span class="title">{{item.book.name}}</span>
+		<p>Count: {{item.booksCount}}</p>
+		<span class="secondary-content">
+			<button (click)="increase(item)" type="button" class="btn">
+				<i class="Small material-icons">add</i>
+			</button>
+
+			<button (click)="decrease(item)" type="button" class="btn">
+				<i class="Small material-icons">remove</i>
+			</button>
+		</span>
+	</li>
+
+</ul>
