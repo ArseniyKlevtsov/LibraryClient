@@ -19,7 +19,9 @@
         {{book.name}}
     </a>
 </div>
+
 <app-loader *ngIf="loading"></app-loader>
-<p *ngIf="!hasBooks"> at the moment there are no books by genre {{genre.name}}</p>
+
+
 <app-paginator *ngIf="hasBooks" [currentPage]="currentPage" [totalPages]="totalPages"
   (pageChange)="onPageChange($event)"></app-paginator>
